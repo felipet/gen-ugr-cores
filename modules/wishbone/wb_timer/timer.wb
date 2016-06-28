@@ -1,0 +1,81 @@
+peripheral {
+
+    name = "Wishbone Timer Module";
+    description = "Simple timer module. It has a 32 bit register which is \
+                   increment each clk_i tic. If the maximum value is reached \
+                   a overflow flag will be asserted.";
+    hdl_entity = "wb_timer";
+    c_prefix = "WB_TIMER";
+    hdl_prefix = "WB_TIMER";
+    sdb_vendor = 0x36f4; -- echo -n "UGR" | md5sum - | cut -c1-4
+    reg {
+        name = "Control and Status register";
+        description = "Control and Status register";
+        prefix = "csr";
+
+        field {
+            name = "Start";
+            description = "Start the timer";
+            prefix = "start";
+            type = BIT;
+            align = 0;
+            access_bus = READ_ONLY;
+            access_dev = WRITE_ONLY;
+        };
+
+        field {
+            name = "Stop";
+            description = "Stop the timer";
+            prefix = "stop";
+            type = BIT;
+            align = 1;
+            access_bus = READ_ONLY;
+            access_dev = WRITE_ONLY;
+        };
+
+        field {
+            name = "Reset";
+            description = "Reset the timer";
+            prefix = "rst";
+            type = BIT;
+            align = 2;
+            access_bus = READ_ONLY;
+            access_dev = WRITE_ONLY;
+        };
+
+        field {
+            name = "Enabled";
+            description = "Check if the timer is counting";
+            prefix = "en";
+            type = BIT;
+            align = 3;
+            access_bus = READ_WRITE;
+            access_dev = READ_ONLY;
+        };
+
+        field {
+            name = "Overflow";
+            description = "Check if the timer's count is overflowed";
+            prefix = "oflow";
+            type = BIT;
+            align = 4;
+            access_bus = READ_WRITE;
+            access_dev = READ_ONLY;
+        };
+    };
+
+    reg {
+        name = "Timer counter";
+        description = "An unsinged value of the timer counter";
+        prefix = "cnt";
+        field {
+            name = "Count";
+            description = "Number of clock ticks";
+            prefix = "ticks";
+            type = SLV;
+            size = 32;
+            access_bus = READ_WRITE;
+            access_dev = READ_ONLY;
+        };
+    };
+};
